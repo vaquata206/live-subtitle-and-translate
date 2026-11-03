@@ -1,0 +1,20 @@
+﻿{
+  "name": "meeting-live-subtitles",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Chrome extension: live subtitles & translation for meetings and any tab with audio",
+  "type": "module",
+  "scripts": {
+    "dev": "vite build --watch --mode development",
+    "build": "npm run typecheck && vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "icons": "node scripts/gen-icons.mjs"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.3.7",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
+  }
+}

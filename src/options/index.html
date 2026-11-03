@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <title>Cài đặt – Live Subtitles</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Live Subtitles &amp; Translate – Cài đặt</h1>
+
+      <section>
+        <h2>Nhận dạng giọng nói (Speech-to-Text)</h2>
+        <label>
+          Nhà cung cấp
+          <select id="sttProvider">
+            <option value="deepgram">Deepgram (streaming, có nhận diện người nói)</option>
+          </select>
+        </label>
+        <label>
+          Deepgram API key
+          <div class="row">
+            <input id="deepgramApiKey" type="password" autocomplete="off" placeholder="dg_…" />
+            <button id="toggleDgKey" type="button" class="btn">Hiện</button>
+          </div>
+          <small>Tạo key miễn phí tại <a href="https://console.deepgram.com/" target="_blank" rel="noreferrer">console.deepgram.com</a>. Key chỉ lưu trên máy này.</small>
+        </label>
+        <label>
+          Model
+          <input id="deepgramModel" list="dgModels" />
+          <datalist id="dgModels">
+            <option value="nova-3"></option>
+            <option value="nova-2"></option>
+            <option value="nova-2-meeting"></option>
+          </datalist>
+          <small><code>nova-3</code> hỗ trợ chế độ đa ngôn ngữ tự động; <code>nova-2</code> hỗ trợ nhiều ngôn ngữ hơn (gồm tiếng Việt) khi chọn cụ thể.</small>
+        </label>
+        <label>
+          Ngôn ngữ nói (nguồn)
+          <select id="sourceLanguage"></select>
+        </label>
+        <label class="check"><input id="diarize" type="checkbox" /> Nhận diện người nói (diarization)</label>
+        <div class="row">
+          <button id="testStt" type="button" class="btn">Kiểm tra kết nối Deepgram</button>
+          <span id="testSttResult" class="result"></span>
+        </div>
+      </section>
+
+      <section>
+        <h2>Dịch</h2>
+        <label class="check"><input id="translateEnabled" type="checkbox" /> Bật dịch tự động</label>
+        <label>
+          Dịch sang
+          <select id="targetLanguage"></select>
+        </label>
+        <label>
+          Dịch vụ dịch
+          <select id="translatorProvider"></select>
+        </label>
+        <div id="openaiFields" class="sub">
+          <label>
+            OpenAI API key
+            <div class="row">
+              <input id="openaiApiKey" type="password" autocomplete="off" placeholder="sk-…" />
+              <button id="toggleOaKey" type="button" class="btn">Hiện</button>
+            </div>
+          </label>
+          <label>
+            Model
+            <input id="openaiModel" list="oaModels" />
+            <datalist id="oaModels">
+              <option value="gpt-4o-mini"></option>
+              <option value="gpt-4.1-mini"></option>
+              <option value="gpt-4o"></option>
+            </datalist>
+          </label>
+        </div>
+        <div id="chromeFields" class="sub">
+          <p>Dịch on-device bằng Chrome built-in AI (Chrome 138+). Mô hình cho từng cặp ngôn ngữ cần được tải trước.</p>
+          <div class="row">
+            <label class="inline">Từ <select id="chromeFrom"></select></label>
+            <button id="downloadChrome" type="button" class="btn">Tải mô hình Chrome</button>
+            <span id="downloadChromeResult" class="result"></span>
+          </div>
+        </div>
+        <div class="row">
+          <input id="testText" value="Hello everyone, let's get started with today's meeting." />
+          <button id="testTranslate" type="button" class="btn">Thử dịch</button>
+        </div>
+        <div id="testTranslateResult" class="result block"></div>
+      </section>
+
+      <footer>
+        <span id="saved" class="saved">Đã lưu ✓</span>
+        <p class="note">
+          Lưu ý: extension ghi âm âm thanh của tab (giọng những người khác trong cuộc họp), không ghi micro của bạn.
+          Hãy thông báo cho người tham gia khi bạn ghi/chép lời cuộc họp.
+        </p>
+      </footer>
+    </main>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

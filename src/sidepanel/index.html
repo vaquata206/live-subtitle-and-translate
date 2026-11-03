@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Live Subtitles</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="status" id="status" data-status="idle">
+        <span class="dot"></span>
+        <span id="statusText">Sẵn sàng</span>
+      </div>
+      <button id="toggle" class="btn primary" type="button">▶ Bắt đầu</button>
+    </header>
+
+    <div id="notice" class="notice" hidden></div>
+
+    <div class="toolbar">
+      <select id="sessionSelect" title="Phiên đã lưu"></select>
+      <div class="toolbar-row">
+        <select id="viewMode" title="Chế độ hiển thị">
+          <option value="bilingual">Song ngữ</option>
+          <option value="original">Bản gốc</option>
+          <option value="translation">Bản dịch</option>
+        </select>
+        <button id="fontDown" class="btn icon" type="button" title="Giảm cỡ chữ">A−</button>
+        <button id="fontUp" class="btn icon" type="button" title="Tăng cỡ chữ">A+</button>
+        <button id="toggleTime" class="btn icon" type="button" title="Hiện/ẩn thời gian">🕒</button>
+        <span class="spacer"></span>
+        <button id="copy" class="btn icon" type="button" title="Sao chép transcript">⧉</button>
+        <button id="exportTxt" class="btn" type="button" title="Xuất TXT">TXT</button>
+        <button id="exportSrt" class="btn" type="button" title="Xuất SRT">SRT</button>
+        <button id="deleteSession" class="btn icon danger" type="button" title="Xoá phiên này">🗑</button>
+        <button id="openSettings" class="btn icon" type="button" title="Cài đặt">⚙</button>
+      </div>
+    </div>
+
+    <main id="transcript" class="transcript" aria-live="polite">
+      <div id="empty" class="empty">
+        <p><strong>Chưa có phụ đề.</strong></p>
+        <ol>
+          <li>Mở tab cuộc họp (Google Meet, Teams, Zoom web…) hoặc bất kỳ tab có âm thanh.</li>
+          <li>Bấm biểu tượng extension trên tab đó để mở panel này.</li>
+          <li>Bấm <b>Bắt đầu</b>. Phụ đề và bản dịch sẽ hiện ở đây.</li>
+        </ol>
+        <p class="hint">Lần đầu sử dụng, hãy nhập Deepgram API key trong ⚙ Cài đặt.</p>
+      </div>
+    </main>
+
+    <div id="interim" class="interim" hidden></div>
+    <button id="jump" class="jump" type="button" hidden>↓ Mới nhất</button>
+
+    <footer class="footer" id="footer"></footer>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
