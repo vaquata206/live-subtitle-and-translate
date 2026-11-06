@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Biên bản cuộc họp</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="bar">
+      <strong class="brand">📝 Biên bản cuộc họp</strong>
+      <span id="saveState" class="muted"></span>
+      <span class="spacer"></span>
+      <select id="tpl" title="Mẫu biên bản"></select>
+      <select id="lang" title="Ngôn ngữ biên bản"></select>
+      <button id="regen" class="btn" type="button">🔄 Tạo lại</button>
+      <button id="cancel" class="btn" type="button" hidden>Huỷ</button>
+      <span class="sep"></span>
+      <label class="check"><input id="withTranscript" type="checkbox" /> Kèm transcript</label>
+      <label class="check"><input id="withRefs" type="checkbox" checked /> Mốc thời gian</label>
+      <button id="export" class="btn primary" type="button">⬇ Xuất DOCX</button>
+    </header>
+    <div id="progress" class="progress" hidden></div>
+
+    <main id="doc" class="doc" hidden>
+      <input id="title" class="title" placeholder="Tiêu đề cuộc họp" />
+      <div id="metaLine" class="meta-line"></div>
+
+      <section>
+        <h2 data-label="participants"></h2>
+        <textarea id="participants" data-list placeholder="Mỗi người một dòng"></textarea>
+      </section>
+      <section>
+        <h2 data-label="summary" data-num="1"></h2>
+        <textarea id="summary" placeholder="Tóm tắt nội dung cuộc họp"></textarea>
+      </section>
+      <section>
+        <h2 data-label="topics" data-num="2"></h2>
+        <div id="topics"></div>
+        <button id="addTopic" class="btn add" type="button">+ Thêm chủ đề</button>
+      </section>
+      <section>
+        <h2 data-label="decisions" data-num="3"></h2>
+        <div id="decisions"></div>
+        <button id="addDecision" class="btn add" type="button">+ Thêm quyết định</button>
+      </section>
+      <section>
+        <h2 data-label="actionItems" data-num="4"></h2>
+        <table class="actions">
+          <thead>
+            <tr>
+              <th class="c-no" data-label="no"></th>
+              <th data-label="task"></th>
+              <th class="c-owner" data-label="owner"></th>
+              <th class="c-due" data-label="due"></th>
+              <th class="c-del"></th>
+            </tr>
+          </thead>
+          <tbody id="actions"></tbody>
+        </table>
+        <button id="addAction" class="btn add" type="button">+ Thêm công việc</button>
+      </section>
+      <section>
+        <h2 data-label="openQuestions" data-num="5"></h2>
+        <textarea id="openQuestions" data-list placeholder="Mỗi vấn đề một dòng"></textarea>
+      </section>
+      <section>
+        <h2 data-label="nextSteps" data-num="6"></h2>
+        <textarea id="nextSteps" data-list placeholder="Mỗi bước một dòng"></textarea>
+      </section>
+    </main>
+
+    <div id="empty" class="empty" hidden>
+      <p id="emptyText">Phiên này chưa có biên bản.</p>
+      <button id="generate" class="btn primary" type="button">📝 Tạo biên bản</button>
+    </div>
+
+    <aside id="refPanel" class="ref-panel" hidden>
+      <div class="ref-head">
+        <strong id="refTitle"></strong>
+        <button id="refClose" class="btn icon" type="button" title="Đóng">✕</button>
+      </div>
+      <div id="refBody" class="ref-body"></div>
+    </aside>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

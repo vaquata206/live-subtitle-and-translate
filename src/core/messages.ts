@@ -1,4 +1,4 @@
-import type { CaptureState, CaptureStatus, Segment, Session, SessionMeta } from './types';
+import type { CaptureState, CaptureStatus, Segment, Session, SessionMeta, SummaryState } from './types';
 import type { Settings } from './settings';
 
 /** Messages handled by the service worker (sent by the side panel / options page). */
@@ -9,7 +9,8 @@ export type BackgroundRequest =
   | { type: 'LIST_SESSIONS' }
   | { type: 'GET_SESSION'; sessionId: string }
   | { type: 'DELETE_SESSION'; sessionId: string }
-  | { type: 'RENAME_SPEAKER'; sessionId: string; speaker: number; name: string };
+  | { type: 'RENAME_SPEAKER'; sessionId: string; speaker: number; name: string }
+  | { type: 'UPDATE_SUMMARY'; sessionId: string; patch: Partial<SummaryState> };
 
 export interface BackgroundResponses {
   START_CAPTURE: { ok: true; sessionId: string } | { ok: false; error: string };
@@ -19,6 +20,7 @@ export interface BackgroundResponses {
   GET_SESSION: { session: Session | null };
   DELETE_SESSION: { ok: true };
   RENAME_SPEAKER: { session: Session | null };
+  UPDATE_SUMMARY: { session: Session | null };
 }
 
 /** Messages addressed to the offscreen document. */
@@ -56,6 +58,7 @@ const BACKGROUND_TYPES = new Set<string>([
   'GET_SESSION',
   'DELETE_SESSION',
   'RENAME_SPEAKER',
+  'UPDATE_SUMMARY',
 ]);
 
 export function isBackgroundRequest(msg: unknown): msg is BackgroundRequest {

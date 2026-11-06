@@ -225,6 +225,14 @@ async function handleRequest(msg: BackgroundRequest): Promise<unknown> {
       if (session) broadcast({ type: 'SESSION_UPDATED', session });
       return { session };
     }
+    case 'UPDATE_SUMMARY': {
+      const session = await sessionStore.update(msg.sessionId, (s) => ({
+        ...s,
+        summary: { ...s.summary, ...msg.patch },
+      }));
+      if (session) broadcast({ type: 'SESSION_UPDATED', session });
+      return { session };
+    }
   }
 }
 

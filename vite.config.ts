@@ -17,6 +17,7 @@ export default defineConfig({
         sidepanel: resolve(root, 'sidepanel/index.html'),
         options: resolve(root, 'options/index.html'),
         offscreen: resolve(root, 'offscreen/index.html'),
+        minutes: resolve(root, 'minutes/index.html'),
         'service-worker': resolve(root, 'background/service-worker.ts'),
       },
       output: {

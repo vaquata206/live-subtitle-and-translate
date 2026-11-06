@@ -17,27 +17,32 @@
 
     <div id="notice" class="notice" hidden></div>
 
+    <nav class="tabs" role="tablist">
+      <button id="tabCaptions" class="tab active" type="button" role="tab" data-tab="captions">Phụ đề</button>
+      <button id="tabSummary" class="tab" type="button" role="tab" data-tab="summary">Tóm tắt &amp; Biên bản</button>
+    </nav>
+
     <div class="toolbar">
       <select id="sessionSelect" title="Phiên đã lưu"></select>
       <div class="toolbar-row">
-        <select id="viewMode" title="Chế độ hiển thị">
+        <select id="viewMode" class="captions-only" title="Chế độ hiển thị">
           <option value="bilingual">Song ngữ</option>
           <option value="original">Bản gốc</option>
           <option value="translation">Bản dịch</option>
         </select>
-        <button id="fontDown" class="btn icon" type="button" title="Giảm cỡ chữ">A−</button>
-        <button id="fontUp" class="btn icon" type="button" title="Tăng cỡ chữ">A+</button>
-        <button id="toggleTime" class="btn icon" type="button" title="Hiện/ẩn thời gian">🕒</button>
+        <button id="fontDown" class="captions-only btn icon" type="button" title="Giảm cỡ chữ">A−</button>
+        <button id="fontUp" class="captions-only btn icon" type="button" title="Tăng cỡ chữ">A+</button>
+        <button id="toggleTime" class="captions-only btn icon" type="button" title="Hiện/ẩn thời gian">🕒</button>
         <span class="spacer"></span>
-        <button id="copy" class="btn icon" type="button" title="Sao chép transcript">⧉</button>
-        <button id="exportTxt" class="btn" type="button" title="Xuất TXT">TXT</button>
-        <button id="exportSrt" class="btn" type="button" title="Xuất SRT">SRT</button>
+        <button id="copy" class="captions-only btn icon" type="button" title="Sao chép transcript">⧉</button>
+        <button id="exportTxt" class="captions-only btn" type="button" title="Xuất TXT">TXT</button>
+        <button id="exportSrt" class="captions-only btn" type="button" title="Xuất SRT">SRT</button>
         <button id="deleteSession" class="btn icon danger" type="button" title="Xoá phiên này">🗑</button>
         <button id="openSettings" class="btn icon" type="button" title="Cài đặt">⚙</button>
       </div>
     </div>
 
-    <main id="transcript" class="transcript" aria-live="polite">
+    <main id="transcript" class="transcript captions-only" aria-live="polite">
       <div id="empty" class="empty">
         <p><strong>Chưa có phụ đề.</strong></p>
         <ol>
@@ -49,8 +54,51 @@
       </div>
     </main>
 
-    <div id="interim" class="interim" hidden></div>
-    <button id="jump" class="jump" type="button" hidden>↓ Mới nhất</button>
+    <div id="interim" class="interim captions-only" hidden></div>
+    <button id="jump" class="jump captions-only" type="button" hidden>↓ Mới nhất</button>
+
+    <section id="summaryView" class="summary-view summary-only">
+      <div class="card">
+        <div class="card-head">
+          <h3>Tóm tắt nhanh</h3>
+          <span id="liveMeta" class="muted"></span>
+        </div>
+        <div id="liveText" class="live-text"></div>
+        <div class="row">
+          <button id="liveNow" class="btn" type="button">⚡ Tóm tắt ngay</button>
+          <label class="check" title="Chỉ hoạt động khi đang ghi phiên này">
+            <input id="liveAuto" type="checkbox" /> Tự cập nhật mỗi <span id="liveInterval">3</span> phút
+          </label>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h3>Biên bản cuộc họp</h3>
+          <span id="minutesMeta" class="muted"></span>
+        </div>
+        <div class="row">
+          <select id="tplSelect" title="Mẫu biên bản"></select>
+          <select id="langSelect" title="Ngôn ngữ biên bản"></select>
+        </div>
+        <details class="extra">
+          <summary>Yêu cầu thêm (tuỳ chọn)</summary>
+          <textarea id="extra" rows="2" placeholder="VD: nhấn mạnh rủi ro, chi phí và mốc thời gian"></textarea>
+        </details>
+        <ul id="summaryHints" class="hints"></ul>
+        <div class="row">
+          <button id="genMinutes" class="btn primary" type="button">📝 Tạo biên bản</button>
+          <button id="cancelGen" class="btn" type="button" hidden>Huỷ</button>
+        </div>
+        <div id="genProgress" class="progress" hidden></div>
+        <div id="minutesPreview" class="minutes-preview"></div>
+        <div id="minutesActions" class="row" hidden>
+          <button id="openMinutes" class="btn" type="button">✎ Mở &amp; chỉnh sửa</button>
+          <button id="exportDocx" class="btn" type="button">⬇ Xuất DOCX</button>
+          <label class="check"><input id="docxTranscript" type="checkbox" /> Kèm transcript</label>
+        </div>
+      </div>
+    </section>
 
     <footer class="footer" id="footer"></footer>
 

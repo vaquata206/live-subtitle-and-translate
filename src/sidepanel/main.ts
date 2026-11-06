@@ -5,6 +5,7 @@ import { TRANSLATOR_LABELS } from '../core/translate';
 import { exportFileName, formatClock, toSrt, toTxt } from '../core/transcript/export';
 import { applyFinalSegment, applyTranslation, speakerLabel } from '../core/transcript/session';
 import type { CaptureState, CaptureStatus, Segment, Session, SessionMeta } from '../core/types';
+import { initSummaryTab } from './summary';
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 
@@ -49,6 +50,21 @@ let loadingSession = false;
 let bufferedEvents: BroadcastEvent[] = [];
 let prefs: UiPrefs;
 let settings: Settings;
+
+const summaryTab = initSummaryTab({
+  getSession: () => session,
+  isLiveSession: () => isActive() && !!session && session.id === captureState.sessionId,
+  getSettings: () => settings,
+});
+
+for (const tab of document.querySelectorAll<HTMLButtonElement>('.tab')) {
+  tab.addEventListener('click', () => {
+    const summary = tab.dataset.tab === 'summary';
+    document.body.classList.toggle('tab-summary', summary);
+    document.querySelectorAll('.tab').forEach((t) => t.classList.toggle('active', t === tab));
+    summaryTab.setVisible(summary);
+  });
+}
 
 // ---------- Rendering ----------
 
@@ -305,6 +321,7 @@ async function viewSession(id: string | null) {
   if (!id) {
     session = null;
     renderTranscript();
+    summaryTab.reset();
     return;
   }
   loadingSession = true;
@@ -317,7 +334,22 @@ async function viewSession(id: string | null) {
   bufferedEvents = [];
   for (const ev of pending) applyEventToSession(ev, false);
   renderTranscript();
+  summaryTab.reset();
   if (els.sessionSelect.querySelector(`option[value="${CSS.escape(id)}"]`)) els.sessionSelect.value = id;
+}
+
+/** Applies a stored session snapshot without losing live segments/translations not yet persisted. */
+function mergeSession(local: Session, incoming: Session): Session {
+  let merged = incoming;
+  const incomingById = new Map(incoming.segments.map((s) => [s.id, s]));
+  for (const seg of local.segments) {
+    const stored = incomingById.get(seg.id);
+    if (!stored) merged = applyFinalSegment(merged, seg);
+    else if (!stored.translation && !stored.translationError && (seg.translation || seg.translationError)) {
+      merged = applyTranslation(merged, seg.id, seg.translation, seg.translationError);
+    }
+  }
+  return merged;
 }
 
 function applyEventToSession(ev: BroadcastEvent, render: boolean) {
@@ -328,6 +360,7 @@ function applyEventToSession(ev: BroadcastEvent, render: boolean) {
       if (render) {
         renderInterim(null);
         appendSegment(ev.segment);
+        summaryTab.render();
       }
       break;
     case 'SEGMENT_TRANSLATED':
@@ -358,6 +391,7 @@ chrome.runtime.onMessage.addListener((msg: BroadcastEvent & { target?: string })
         if (session) renderTranscript();
       }
       updateToolbarState();
+      summaryTab.render();
       break;
     }
     case 'SEGMENT_INTERIM':
@@ -372,8 +406,10 @@ chrome.runtime.onMessage.addListener((msg: BroadcastEvent & { target?: string })
       break;
     case 'SESSION_UPDATED':
       if (msg.session.id === viewedSessionId) {
-        session = msg.session;
-        renderTranscript();
+        const namesChanged = JSON.stringify(session?.speakerNames ?? {}) !== JSON.stringify(msg.session.speakerNames);
+        session = session ? mergeSession(session, msg.session) : msg.session;
+        if (namesChanged) renderTranscript();
+        summaryTab.render();
       }
       break;
     default:
@@ -386,6 +422,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
     void loadSettings().then((s) => {
       settings = s;
       renderFooter();
+      summaryTab.render();
     });
   }
 });
@@ -501,6 +538,7 @@ async function init() {
   viewedSessionId = current?.id ?? null;
   renderStatus();
   renderTranscript();
+  summaryTab.render();
   await refreshSessionList();
   if (!settings.deepgramApiKey) showNotice('Chưa có Deepgram API key – cần để nhận dạng giọng nói.', 'info', true);
 }

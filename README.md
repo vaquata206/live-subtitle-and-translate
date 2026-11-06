@@ -13,6 +13,13 @@ Chrome extension (Manifest V3) hiển thị **phụ đề trực tiếp**, **nh�
   - **OpenAI**: cần API key, dịch tự nhiên hơn.
 - 👀 3 chế độ xem: Song ngữ / Bản gốc / Bản dịch. Có chỉnh cỡ chữ, ẩn/hiện thời gian và giao diện sáng/tối theo hệ thống.
 - 💾 Tự động lưu transcript (tối đa 100 phiên gần nhất). Có thể xem lại, sao chép, xuất **TXT** / **SRT** hoặc xoá.
+- 🧾 **Tóm tắt & Biên bản cuộc họp** (tab *Tóm tắt & Biên bản* trong Side Panel):
+  - **Tóm tắt nhanh**: chỉ chạy khi bấm *⚡ Tóm tắt ngay*. Có thể bật *Tự cập nhật* theo chu kỳ (mặc định tắt). Mỗi lần chỉ xử lý phần transcript mới.
+  - **Biên bản**: tóm tắt, thành phần tham dự, nội dung thảo luận, quyết định, công việc cần làm (người phụ trách, thời hạn), vấn đề còn tồn đọng, bước tiếp theo. Mỗi mục có mốc thời gian để đối chiếu transcript.
+  - Mẫu: tiêu chuẩn, tóm tắt ngắn, daily stand-up, phỏng vấn/khách hàng, bài giảng/video. Có ô *Yêu cầu thêm* để ghi chỉ dẫn riêng.
+  - **Trang Biên bản** để chỉnh sửa (tự lưu), bấm mốc thời gian để xem đoạn transcript tương ứng.
+  - **Xuất DOCX**, tuỳ chọn kèm toàn bộ transcript làm phụ lục.
+  - Dịch vụ tóm tắt: **OpenAI hoặc API tương thích OpenAI** (Azure OpenAI, Gemini, Ollama, LM Studio…) hoặc **Gemini Nano** có sẵn trong Chrome (on-device, miễn phí).
 
 ## Cài đặt (build từ source)
 
@@ -40,6 +47,18 @@ Panel vẫn mở khi bạn chuyển sang tab khác. Muốn ghi âm tab mới, h�
 
 Phím tắt: **Alt+Shift+S** bật/tắt phụ đề trên tab hiện tại. Có thể đổi tại `chrome://extensions/shortcuts`.
 
+### Tóm tắt & xuất biên bản
+
+1. Vào **Cài đặt → Tóm tắt & Biên bản**:
+   - **OpenAI**: nhập API key (hoặc để trống để dùng key ở mục Dịch) và model (mặc định `gpt-4o-mini`).
+   - **API tương thích khác**: đổi *Base URL*, ví dụ Gemini `https://generativelanguage.googleapis.com/v1beta/openai` hoặc Ollama `http://localhost:11434/v1`. Bấm **Kiểm tra kết nối & thử tóm tắt**; Chrome sẽ hỏi cấp quyền truy cập địa chỉ đó.
+   - **Gemini Nano**: bấm *Tải Gemini Nano*. Nano chỉ viết tốt tiếng Anh/Tây Ban Nha/Nhật, nên biên bản được soạn bằng tiếng Anh rồi dịch sang ngôn ngữ đã chọn.
+2. Trước khi tạo biên bản, nên đổi tên `Speaker N` ở tab *Phụ đề* để biên bản ghi đúng người tham dự.
+3. Ở tab **Tóm tắt & Biên bản**, chọn mẫu và ngôn ngữ, rồi bấm **📝 Tạo biên bản**. Có thể huỷ giữa chừng.
+4. Bấm **✎ Mở & chỉnh sửa** để sửa biên bản, rồi bấm **⬇ Xuất DOCX**.
+
+Cuộc họp dài được chia thành nhiều đoạn, ghi chú từng đoạn rồi gộp lại. Ghi chú của các đoạn được lưu lại, nên khi tạo lại chỉ phần mới được gửi đi.
+
 > Side Panel mặc định nằm bên phải. Muốn chuyển sang trái: `chrome://settings/appearance` → *Side panel position* → *Show on left*.
 
 ## Kiến trúc
@@ -61,10 +80,13 @@ Side Panel ──START──▶ Service Worker ──tabCapture.getMediaStreamId
 |---|---|
 | `src/background/` | Service worker: điều phối capture, offscreen document, lưu phiên |
 | `src/offscreen/` | Pipeline âm thanh, STT, dịch |
-| `src/sidepanel/` | Giao diện phụ đề |
+| `src/sidepanel/` | Giao diện phụ đề, tab Tóm tắt & Biên bản |
+| `src/minutes/` | Trang chỉnh sửa và xuất biên bản |
 | `src/options/` | Trang cài đặt |
 | `src/core/stt/` | Interface `SttProvider` + Deepgram |
 | `src/core/translate/` | Interface `Translator`, các provider, hàng đợi dịch (cache, retry, giới hạn đồng thời) |
+| `src/core/summarize/` | Interface `Summarizer`: API tương thích OpenAI, Chrome Prompt API (Gemini Nano) |
+| `src/core/minutes/` | Chia đoạn transcript, prompt/mẫu, map-reduce, chuẩn hoá kết quả, xuất DOCX |
 | `src/core/transcript/` | Xử lý phiên, xuất TXT/SRT |
 | `public/` | `manifest.json`, `pcm-worklet.js`, icons |
 
@@ -87,3 +109,6 @@ npm run icons      # tạo lại icon PNG
 - API key được lưu cục bộ trong `chrome.storage.local` và gửi trực tiếp tới Deepgram/OpenAI.
 - Với Chrome built-in Translator, cần bấm **Tải mô hình Chrome** trong Cài đặt cho từng cặp ngôn ngữ trước khi dùng.
 - Hãy thông báo và xin phép người tham gia trước khi ghi/chép lời cuộc họp.
+- Khi tóm tắt bằng dịch vụ đám mây, transcript được gửi tới máy chủ đó; panel luôn ghi rõ địa chỉ nhận. Với cuộc họp nhạy cảm, nên dùng Gemini Nano hoặc LLM chạy trên máy (Ollama).
+- Biên bản do AI tạo có thể sai hoặc thiếu; hãy rà soát (bấm mốc thời gian để đối chiếu transcript) trước khi phát hành.
+- Phiên bản này chỉ xuất biên bản dạng DOCX với bố cục mặc định. Mẫu riêng của công ty sẽ bổ sung sau; bố cục nằm ở `buildMinutesDocument` trong `src/core/minutes/docx.ts`.
