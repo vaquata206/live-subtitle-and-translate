@@ -1,0 +1,7 @@
+{
+  "extends": "@lst/config/tsconfig/browser.json",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "include": ["src", "tests"]
+}

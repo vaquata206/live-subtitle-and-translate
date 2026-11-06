@@ -1,23 +1,35 @@
 {
-  "name": "meeting-live-subtitles",
-  "version": "0.1.0",
+  "name": "live-subtitle-and-translate",
   "private": true,
-  "description": "Chrome extension: live subtitles & translation for meetings and any tab with audio",
-  "type": "module",
+  "description": "Live meeting subtitles, translation and minutes: Chrome extension + web platform",
+  "packageManager": "pnpm@12.18.0",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
-    "dev": "vite build --watch --mode development",
-    "build": "npm run typecheck && vite build",
-    "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "icons": "node scripts/gen-icons.mjs"
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "lint": "turbo run lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "infra:up": "docker compose -f infra/docker-compose.dev.yml up -d",
+    "infra:down": "docker compose -f infra/docker-compose.dev.yml down",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "@types/chrome": "^0.3.7",
-    "typescript": "^7.0.2",
-    "vite": "^8.3.5",
-    "vitest": "^5.0.5"
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
+    "@lst/config": "workspace:*",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.10",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "turbo": "^2.11.10",
+    "typescript": "~6.0.3"
   },
-  "dependencies": {
-    "docx": "^9.15.1"
+  "lint-staged": {
+    "*.{ts,tsx,js,mjs,cjs,json,css,md,yml,yaml,html}": "prettier --write --ignore-unknown"
   }
 }

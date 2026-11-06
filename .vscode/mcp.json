@@ -1,0 +1,44 @@
+{
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "context7-api-key",
+      "description": "Context7 API key (optional, free at https://context7.com/dashboard; leave empty for anonymous rate limits)",
+      "password": true
+    },
+    {
+      "type": "promptString",
+      "id": "postgres-dev-url",
+      "description": "DEV ONLY – e.g. postgresql://lst:lst@host.docker.internal:5432/lst (runs inside Docker, so use host.docker.internal instead of localhost)",
+      "password": true
+    }
+  ],
+  "servers": {
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    },
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "${input:context7-api-key}"
+      }
+    },
+    "shadcn": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["shadcn@latest", "mcp"],
+      "cwd": "${workspaceFolder}/packages/ui"
+    },
+    "postgres-dev": {
+      "type": "stdio",
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "-e", "DATABASE_URI", "crystaldba/postgres-mcp", "--access-mode=restricted"],
+      "env": {
+        "DATABASE_URI": "${input:postgres-dev-url}"
+      }
+    }
+  }
+}

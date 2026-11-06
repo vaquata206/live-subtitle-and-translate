@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "Meeting Live Subtitles & Translate",
+  "short_name": "Live Subtitles",
+  "version": "0.1.0",
+  "description": "Live subtitles, speaker labels and translation for Google Meet, Teams, Zoom web or any tab playing audio.",
+  "minimum_chrome_version": "116",
+  "permissions": ["tabCapture", "offscreen", "sidePanel", "storage", "unlimitedStorage", "activeTab"],
+  "host_permissions": [
+    "https://api.deepgram.com/*",
+    "wss://api.deepgram.com/*",
+    "https://translate.googleapis.com/*",
+    "https://api.openai.com/*"
+  ],
+  "optional_host_permissions": ["https://*/*", "http://*/*"],
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  },
+  "side_panel": {
+    "default_path": "sidepanel/index.html"
+  },
+  "options_page": "options/index.html",
+  "action": {
+    "default_title": "Live subtitles & translate",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "commands": {
+    "toggle-capture": {
+      "suggested_key": { "default": "Alt+Shift+S" },
+      "description": "Start/stop live subtitles on the current tab"
+    }
+  }
+}

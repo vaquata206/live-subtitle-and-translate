@@ -1,0 +1,29 @@
+{
+  "name": "@lst/worker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Background jobs (BullMQ): per-viewer translation, managed AI, email, retention cleanup",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "build": "tsdown src/main.ts --format esm --platform node --target node22 --no-dts --clean",
+    "start": "node dist/main.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@lst/core": "workspace:*",
+    "@lst/entitlements": "workspace:*",
+    "bullmq": "^6.7.1"
+  },
+  "devDependencies": {
+    "@lst/config": "workspace:*",
+    "@types/node": "^24.10.0",
+    "eslint": "^9.39.0",
+    "tsdown": "^0.23.5",
+    "tsx": "^4.23.15",
+    "typescript": "~6.0.3",
+    "vitest": "^5.1.0"
+  }
+}

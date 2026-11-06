@@ -1,0 +1,4 @@
+@import '@lst/ui/globals.css';
+
+/* Tailwind v4 only scans this app by default; include the design-system sources. */
+@source '../../../../packages/ui/src';

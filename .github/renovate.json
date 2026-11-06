@@ -1,0 +1,13 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", ":semanticCommits"],
+  "timezone": "Asia/Ho_Chi_Minh",
+  "schedule": ["before 6am on monday"],
+  "rangeStrategy": "bump",
+  "packageRules": [
+    { "matchUpdateTypes": ["minor", "patch"], "matchCurrentVersion": "!/^0/", "groupName": "non-major dependencies" },
+    { "matchPackageNames": ["/^@storybook//", "storybook"], "groupName": "storybook" },
+    { "matchPackageNames": ["next", "@next/eslint-plugin-next"], "groupName": "next.js" },
+    { "matchManagers": ["github-actions"], "groupName": "github actions" }
+  ]
+}

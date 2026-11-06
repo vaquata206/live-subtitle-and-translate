@@ -1,0 +1,31 @@
+{
+  "name": "@lst/db",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SERVER-ONLY: Drizzle schema, migrations and DB client",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/migrate.ts",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@lst/entitlements": "workspace:*",
+    "drizzle-orm": "^0.45.4",
+    "postgres": "^3.4.9"
+  },
+  "devDependencies": {
+    "@lst/config": "workspace:*",
+    "@types/node": "^24.10.0",
+    "drizzle-kit": "^0.31.11",
+    "eslint": "^9.39.0",
+    "tsx": "^4.23.15",
+    "typescript": "~6.0.3"
+  }
+}

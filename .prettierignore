@@ -1,0 +1,10 @@
+pnpm-lock.yaml
+**/dist
+**/.next
+**/storybook-static
+**/coverage
+.github/skills
+.github/agents
+.github/instructions
+apps/extension/public/icons
+packages/db/drizzle

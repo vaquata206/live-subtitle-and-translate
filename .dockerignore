@@ -1,0 +1,13 @@
+**/node_modules
+**/dist
+**/.next
+**/.turbo
+**/coverage
+**/storybook-static
+**/dist-zip
+.git
+.github
+.vscode
+**/.env
+**/.env.*
+!**/.env.example
