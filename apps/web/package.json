@@ -8,8 +8,11 @@
     "dev": "next dev --port 3000",
     "build": "next build",
     "start": "next start --port 3000",
-    "typecheck": "tsc --noEmit",
-    "lint": "eslint ."
+    "typecheck": "tsc --noEmit && corepack pnpm test:e2e:typecheck",
+    "lint": "eslint . --ignore-pattern \"playwright-report/**\" --ignore-pattern \"test-results/**\"",
+    "test:e2e:install": "playwright install chromium --no-shell",
+    "test:e2e": "playwright test",
+    "test:e2e:typecheck": "tsc --ignoreConfig --noEmit --strict --skipLibCheck --types node --target ES2022 --module NodeNext --moduleResolution NodeNext playwright.config.ts e2e/landing.spec.ts"
   },
   "dependencies": {
     "@lst/core": "workspace:*",
@@ -22,8 +25,10 @@
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@lst/config": "workspace:*",
     "@next/eslint-plugin-next": "^16.4.5",
+    "@playwright/test": "^1.65.0",
     "@tailwindcss/postcss": "^4.3.4",
     "@types/node": "^24.10.0",
     "@types/react": "^19.3.0",

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Be_Vietnam_Pro, Inter } from 'next/font/google';
+import { marketing } from '@/lib/marketing';
 import './globals.css';
 
 const display = Be_Vietnam_Pro({
@@ -12,9 +13,26 @@ const display = Be_Vietnam_Pro({
 const sans = Inter({ subsets: ['latin', 'vietnamese'], variable: '--font-sans', display: 'swap' });
 
 export const metadata: Metadata = {
-  title: { default: 'Live Subtitles – Phụ đề & dịch cuộc họp trực tiếp', template: '%s · Live Subtitles' },
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'),
+  title: {
+    default: 'Live Subtitles – Phụ đề, dịch song ngữ và biên bản',
+    template: '%s · Live Subtitles',
+  },
   description:
-    'Phụ đề, dịch song ngữ và biên bản tự động cho Google Meet, Microsoft Teams, Zoom và mọi tab có âm thanh. Chia sẻ trực tiếp cho người khác bằng link và mã PIN.',
+    'Tiện ích Chrome: phụ đề, dịch song ngữ, tóm tắt theo yêu cầu và biên bản DOCX. Dùng khóa API riêng cần mạng; AI tích hợp và chia sẻ web sắp có.',
+  applicationName: marketing.brand,
+  openGraph: {
+    type: 'website',
+    locale: 'vi_VN',
+    siteName: marketing.brand,
+    title: `${marketing.brand} – ${marketing.headline}`,
+    description: marketing.description,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${marketing.brand} – Phụ đề và biên bản trong Chrome`,
+    description: marketing.description,
+  },
 };
 
 export const viewport: Viewport = {

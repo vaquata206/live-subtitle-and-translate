@@ -50,6 +50,18 @@ pnpm dev                           # chạy song song web (:3000), realtime (:40
 | `pnpm --filter @lst/extension package` | Đóng gói extension cho Chrome Web Store     |
 | `pnpm --filter @lst/db db:generate`    | Sinh migration sau khi sửa schema           |
 
+## Trang giới thiệu công khai
+
+Trang `/` trong `apps/web` giới thiệu các tính năng tiện ích hiện có, bản xem trước song ngữ tĩnh, quy trình sử dụng và hướng dẫn cài từ mã nguồn. Nội dung tập trung tại `apps/web/src/lib/marketing.ts`; các gói minh họa được truyền qua props, chưa kết nối thanh toán, tài khoản hay cơ sở dữ liệu.
+
+Giao diện dùng minh họa vector cuộc họp tự thiết kế, bảng màu xanh–tím và các khối tính năng có điểm nhấn. Sóng âm minh họa và hiệu ứng mở trang chỉ chạy một lượt ngắn dưới 5 giây, không thu âm hay phát dữ liệu thật; hiệu ứng tự tắt khi bật chế độ giảm chuyển động của hệ điều hành.
+
+Chạy riêng trang web bằng `corepack pnpm --filter @lst/web dev`. Không cần Postgres hoặc Redis cho trang giới thiệu. Dữ liệu mô phỏng không thu âm hay gọi dịch vụ AI; dùng tiện ích thật với dịch vụ AI qua API cần mạng và khóa riêng. Chia sẻ lên web và AI do nền tảng cung cấp vẫn là tính năng sắp ra mắt.
+
+Khi triển khai, đặt `NEXT_PUBLIC_APP_URL` thành URL công khai của trang web trong môi trường **trước khi build** để liên kết ảnh Open Graph dùng đúng tên miền. Môi trường phát triển mặc định dùng `http://localhost:3000`.
+
+Kiểm thử giao diện: chạy `corepack pnpm --filter @lst/web test:e2e:install` một lần, rồi `corepack pnpm --filter @lst/web test:e2e`. Playwright tự chạy web dev nếu chưa có server; CI kiểm thử bản production sau build. Bộ kiểm thử bao gồm điều hướng bàn phím, gói demo, responsive và axe WCAG 2.2 AA ở chế độ sáng/tối. Nếu chính sách Windows chặn Chromium, cần môi trường kiểm thử được cho phép; không vô hiệu hóa chính sách bảo vệ.
+
 ## Lộ trình
 
 1. **Nền tảng** (đã xong): monorepo, tách package dùng chung, khung các app, design system, Docker dev, CI, công cụ cho agent.

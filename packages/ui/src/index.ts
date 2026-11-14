@@ -4,3 +4,8 @@ export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 export { Input, Label } from './components/input';
 export { Badge, badgeVariants, LiveBadge, type BadgeProps } from './components/badge';
 export { TranscriptSegment, type TranscriptSegmentProps } from './components/transcript-segment';
+export { MarketingNavigation, type MarketingNavigationProps } from './components/marketing-navigation';
+export { FaqList, type FaqListProps } from './components/faq-list';
+export { PricingCard, type PricingCardProps } from './components/pricing-card';
+export { ProductPreview } from './components/product-preview';
+export { MeetingIllustration } from './components/meeting-illustration';

@@ -35,6 +35,16 @@
   --live: oklch(0.62 0.23 25);
 
   --translation: oklch(0.45 0.16 262);
+  --brand-violet: #7353db;
+  --brand-teal: #087f85;
+  --illustration-stage: #202a52;
+  --illustration-violet: #a99aef;
+  --illustration-cyan: #7edbd0;
+  --illustration-peach: #f5c46b;
+  --illustration-paper: #f7f9ff;
+  --illustration-ink: #263054;
+  --illustration-skin: #efb58e;
+  --illustration-skin-deep: #b97655;
 }
 
 .dark {
@@ -106,5 +116,55 @@
 @keyframes live-pulse {
   50% {
     opacity: 0.35;
+  }
+}
+
+.meeting-illustration {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.product-preview {
+  border-radius: 1.25rem;
+  box-shadow: 0 24px 70px -24px color-mix(in srgb, var(--primary) 30%, transparent);
+}
+
+.product-preview-scene {
+  padding: 1rem 1rem 0;
+  background: var(--card);
+}
+
+.product-preview-signal {
+  display: flex;
+  height: 3.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.product-preview-signal span {
+  width: 4px;
+  border-radius: 4px;
+  background: var(--primary);
+  transform-origin: center;
+}
+
+.product-preview-signal span:nth-child(3n) {
+  background: var(--brand-violet);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .product-preview-signal span {
+    animation: preview-signal 700ms ease-in-out 4 alternate;
+  }
+}
+
+@keyframes preview-signal {
+  from {
+    transform: scaleY(0.35);
+  }
+  to {
+    transform: scaleY(1);
   }
 }
