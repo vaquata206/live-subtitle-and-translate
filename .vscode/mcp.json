@@ -17,7 +17,7 @@
     "playwright": {
       "type": "stdio",
       "command": "npx",
-      "args": ["@playwright/mcp@latest"]
+      "args": ["@playwright/mcp@0.0.84"]
     },
     "context7": {
       "type": "http",
@@ -29,13 +29,13 @@
     "shadcn": {
       "type": "stdio",
       "command": "npx",
-      "args": ["shadcn@latest", "mcp"],
+      "args": ["shadcn@4.23.0", "mcp"],
       "cwd": "${workspaceFolder}/packages/ui"
     },
     "postgres-dev": {
       "type": "stdio",
       "command": "docker",
-      "args": ["run", "-i", "--rm", "-e", "DATABASE_URI", "crystaldba/postgres-mcp", "--access-mode=restricted"],
+      "args": ["run", "-i", "--rm", "-e", "DATABASE_URI", "crystaldba/postgres-mcp:0.3.0", "--access-mode=restricted"],
       "env": {
         "DATABASE_URI": "${input:postgres-dev-url}"
       }

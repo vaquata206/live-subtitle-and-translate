@@ -1,0 +1,48 @@
+# Project-scoped Codex settings. Loaded only when the developer trusts this repo.
+# Personal settings (model, auth, notifications) belong in ~/.codex/config.toml.
+# Keep the approved MCP servers in sync with .vscode/mcp.json and .github/AGENT_TOOLING.md.
+
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+network_access = false
+
+# --- MCP servers (approved list: .github/AGENT_TOOLING.md, section D) ---
+# Secrets come from each developer's environment variables, never from this file.
+# Run `codex` from the repository root so relative `cwd` values resolve correctly.
+
+[mcp_servers.playwright]
+command = "npx"
+args = ["@playwright/mcp@0.0.84"]
+
+[mcp_servers.context7]
+url = "https://mcp.context7.com/mcp"
+# Optional: set CONTEXT7_API_KEY in your shell for higher rate limits.
+env_http_headers = { "CONTEXT7_API_KEY" = "CONTEXT7_API_KEY" }
+# Queries leave the machine: never include source code secrets or user data.
+
+[mcp_servers.shadcn]
+command = "npx"
+args = ["shadcn@4.23.0", "mcp"]
+cwd = "packages/ui"
+
+[mcp_servers.postgres-dev]
+command = "docker"
+args = [
+  "run", "-i", "--rm",
+  "-e", "DATABASE_URI",
+  "crystaldba/postgres-mcp:0.3.0",
+  "--access-mode=restricted",
+]
+# DEV ONLY. Set DATABASE_URI in a dev-only shell, e.g.
+#   postgresql://lst:lst@host.docker.internal:5432/lst
+# Never point it at staging or production. Dev data must be synthetic.
+env_vars = ["DATABASE_URI"]
+
+# --- Subagents (definitions: .codex/agents/*.toml) ---
+# Codex only spawns subagents when explicitly asked. Subagents inherit the parent's
+# approval policy; each agent file sets its own sandbox_mode.
+[agents]
+max_threads = 4
+max_depth = 1
