@@ -8,6 +8,13 @@
       "when": 1793959634695,
       "tag": "0000_bent_agent_zero",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1795168252099,
+      "tag": "0001_curly_wallow",
+      "breakpoints": true
     }
   ]
 }

@@ -13,6 +13,7 @@ import {
   text,
   timestamp,
   uuid,
+  type AnyPgColumn,
 } from 'drizzle-orm/pg-core';
 
 const tsvector = customType<{ data: string }>({ dataType: () => 'tsvector' });
@@ -86,6 +87,46 @@ export const deviceTokens = pgTable(
     createdAt: createdAt(),
   },
   (t) => [index('device_tokens_user_idx').on(t.userId)],
+);
+
+/** Opaque web-session tokens are stored as hashes; the raw token stays in the browser cookie. */
+export const webSessions = pgTable(
+  'web_sessions',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    tokenHash: text('token_hash').notNull().unique(),
+    expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+    lastUsedAt: timestamp('last_used_at', { withTimezone: true }),
+    revokedAt: timestamp('revoked_at', { withTimezone: true }),
+    createdAt: createdAt(),
+  },
+  (t) => [index('web_sessions_user_idx').on(t.userId), index('web_sessions_expires_idx').on(t.expiresAt)],
+);
+
+/** One row per rotated extension refresh token, allowing reuse detection and family revocation. */
+export const deviceRefreshTokens = pgTable(
+  'device_refresh_tokens',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    deviceTokenId: uuid('device_token_id')
+      .notNull()
+      .references(() => deviceTokens.id, { onDelete: 'cascade' }),
+    tokenHash: text('token_hash').notNull().unique(),
+    expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+    consumedAt: timestamp('consumed_at', { withTimezone: true }),
+    revokedAt: timestamp('revoked_at', { withTimezone: true }),
+    replacedById: uuid('replaced_by_id').references((): AnyPgColumn => deviceRefreshTokens.id, {
+      onDelete: 'set null',
+    }),
+    createdAt: createdAt(),
+  },
+  (t) => [
+    index('device_refresh_tokens_device_idx').on(t.deviceTokenId, t.expiresAt),
+    index('device_refresh_tokens_replaced_idx').on(t.replacedById),
+  ],
 );
 
 // ---------- Plans & entitlements ----------
