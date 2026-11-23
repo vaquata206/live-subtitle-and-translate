@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@lst/core": "workspace:*",
+    "@lst/db": "workspace:*",
     "@lst/entitlements": "workspace:*",
     "@lst/protocol": "workspace:*",
     "@lst/ui": "workspace:*",

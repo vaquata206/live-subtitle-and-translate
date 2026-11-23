@@ -1,0 +1,339 @@
+.page {
+  min-height: 100svh;
+  padding: 4.75rem clamp(1rem, 5vw, 5rem) 2rem;
+  background:
+    radial-gradient(ellipse at 96% 5%, color-mix(in srgb, var(--brand-violet) 10%, transparent), transparent 32rem),
+    var(--background);
+}
+
+.backLink {
+  position: absolute;
+  top: 1.4rem;
+  left: clamp(1rem, 5vw, 5rem);
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  color: var(--foreground);
+}
+.backLink:focus-visible,
+.brand:focus-visible,
+.googleButton:focus-visible,
+.formContent a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 4px;
+  border-radius: 0.25rem;
+}
+
+.shell {
+  display: grid;
+  grid-template-areas: 'form';
+  width: min(100%, 68rem);
+  min-height: min(46rem, calc(100svh - 7rem));
+  margin-inline: auto;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 1.35rem;
+  background: var(--card);
+  box-shadow: 0 28px 90px -55px color-mix(in srgb, var(--foreground) 45%, transparent);
+}
+
+.story {
+  grid-area: story;
+  position: relative;
+  display: flex;
+  min-height: 27rem;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  color: var(--illustration-paper);
+  background:
+    radial-gradient(ellipse at 4% 95%, color-mix(in srgb, var(--brand-teal) 48%, transparent), transparent 55%),
+    radial-gradient(ellipse at 100% 10%, color-mix(in srgb, var(--brand-violet) 48%, transparent), transparent 48%),
+    var(--illustration-stage);
+}
+
+.story::after {
+  position: absolute;
+  right: -6rem;
+  bottom: 7rem;
+  width: 24rem;
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in srgb, var(--illustration-paper) 12%, transparent);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 2.5rem color-mix(in srgb, var(--illustration-paper) 3%, transparent),
+    0 0 0 5rem color-mix(in srgb, var(--illustration-paper) 2%, transparent);
+  content: '';
+  pointer-events: none;
+}
+
+.brand,
+.mobileBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: inherit;
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.brandIcon {
+  display: grid;
+  width: 2.35rem;
+  height: 2.35rem;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--illustration-paper) 24%, transparent);
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--illustration-paper) 10%, transparent);
+  color: var(--illustration-cyan);
+}
+
+.storyContent {
+  position: relative;
+  z-index: 1;
+  max-width: 29rem;
+  margin-block: 4rem 3rem;
+}
+
+.waveform {
+  display: flex;
+  height: 3.25rem;
+  align-items: center;
+  gap: 0.22rem;
+  margin-bottom: 2rem;
+  color: var(--illustration-cyan);
+}
+
+.waveform span {
+  width: 3px;
+  height: var(--bar);
+  min-height: 0.35rem;
+  border-radius: 3px;
+  background: currentColor;
+  opacity: 0.76;
+}
+
+.waveform span:nth-child(4n) {
+  color: var(--illustration-peach);
+}
+
+.storyEyebrow {
+  margin-bottom: 0.8rem;
+  color: var(--illustration-cyan);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.story h2 {
+  max-width: 12ch;
+  margin-bottom: 1.6rem;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1.16;
+  text-wrap: balance;
+}
+
+.caption {
+  max-width: 27rem;
+  padding: 1rem 1.1rem;
+  border-left: 2px solid var(--illustration-peach);
+  background: color-mix(in srgb, var(--illustration-paper) 7%, transparent);
+}
+
+.caption p {
+  line-height: 1.6;
+}
+.caption p:first-child {
+  margin-bottom: 0.35rem;
+  color: color-mix(in srgb, var(--illustration-paper) 75%, transparent);
+}
+.caption p:last-child {
+  font-weight: 600;
+}
+
+.storyFootnote {
+  position: relative;
+  z-index: 1;
+  color: color-mix(in srgb, var(--illustration-paper) 70%, transparent);
+  font-size: 0.8rem;
+}
+
+.formPanel {
+  grid-area: form;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 6vw, 5rem);
+}
+
+.formContent {
+  width: min(100%, 24rem);
+  margin-inline: auto;
+}
+.mobileBrand {
+  display: none;
+  margin-bottom: 2.75rem;
+  color: var(--foreground);
+}
+.kicker {
+  margin-bottom: 0.5rem;
+  color: var(--primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.formContent h2 {
+  margin-bottom: 0.55rem;
+  font-size: clamp(2rem, 4vw, 2.65rem);
+  letter-spacing: -0.04em;
+}
+.intro {
+  margin-bottom: 2rem;
+  color: var(--muted-foreground);
+  line-height: 1.65;
+}
+.authMessage {
+  margin: -0.8rem 0 1rem;
+  color: var(--destructive);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.googleButton {
+  display: flex;
+  min-height: 3.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  background: var(--card);
+  color: var(--foreground);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.googleButton:hover {
+  border-color: color-mix(in srgb, var(--primary) 35%, var(--border));
+  background: var(--secondary);
+}
+.googleMark {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-block: 1.55rem;
+  color: var(--muted-foreground);
+  font-size: 0.8rem;
+}
+
+.divider::before,
+.divider::after {
+  height: 1px;
+  flex: 1;
+  background: var(--border);
+  content: '';
+}
+
+.personalButton {
+  display: flex;
+  width: 100%;
+  min-height: 3.25rem;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  background: var(--muted);
+  color: var(--muted-foreground);
+  font: inherit;
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: not-allowed;
+}
+
+.comingSoon {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 0.25rem 0.45rem;
+  border-radius: 0.35rem;
+  background: var(--background);
+  color: var(--muted-foreground);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.accountNote {
+  margin-top: 0.6rem;
+  color: var(--muted-foreground);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+@media (min-width: 58rem) {
+  .shell {
+    grid-template-areas: 'story form';
+    grid-template-columns: 1fr 0.94fr;
+  }
+}
+
+@media (max-width: 57.999rem) {
+  .page {
+    padding-top: 4.6rem;
+  }
+  .shell {
+    width: min(100%, 35rem);
+    min-height: auto;
+  }
+  .story {
+    display: none;
+  }
+  .formPanel {
+    min-height: calc(100svh - 7rem);
+    padding: clamp(1.5rem, 8vw, 3rem);
+  }
+  .mobileBrand {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 25rem) {
+  .page {
+    padding-inline: 0.75rem;
+  }
+  .backLink {
+    left: 0.75rem;
+  }
+  .formPanel {
+    padding-inline: 1.15rem;
+  }
+  .personalButton {
+    font-size: 0.76rem;
+  }
+  .comingSoon {
+    font-size: 0.65rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .googleButton {
+    transition: none;
+  }
+}

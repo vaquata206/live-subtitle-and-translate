@@ -270,6 +270,9 @@ importers:
       '@lst/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@lst/db':
+        specifier: workspace:*
+        version: link:../../packages/db
       '@lst/entitlements':
         specifier: workspace:*
         version: link:../../packages/entitlements

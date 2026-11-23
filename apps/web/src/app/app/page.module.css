@@ -1,0 +1,138 @@
+.page {
+  min-height: 100svh;
+  padding: 0 clamp(1rem, 5vw, 5rem) 4rem;
+  background:
+    radial-gradient(ellipse at 90% 8%, color-mix(in srgb, var(--brand-violet) 10%, transparent), transparent 32rem),
+    var(--background);
+}
+
+.header {
+  display: flex;
+  min-height: 5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--foreground);
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.brand span {
+  display: grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  place-items: center;
+  border-radius: 0.7rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.signOut {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding-inline: 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  background: var(--card);
+  color: var(--foreground);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.signOut:hover {
+  background: var(--secondary);
+}
+.signOut:focus-visible,
+.brand:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+
+.welcome {
+  width: min(100%, 52rem);
+  margin: clamp(4rem, 12vh, 8rem) auto 0;
+}
+
+.eyebrow {
+  margin-bottom: 0.7rem;
+  color: var(--primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.welcome h1 {
+  margin-bottom: 0.7rem;
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  letter-spacing: -0.045em;
+  line-height: 1.15;
+}
+.description {
+  color: var(--muted-foreground);
+  line-height: 1.7;
+}
+
+.account {
+  display: flex;
+  max-width: 27rem;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 2.25rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  background: var(--card);
+}
+
+.accountMark {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--secondary);
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.account div {
+  min-width: 0;
+}
+.account p {
+  overflow-wrap: anywhere;
+}
+.account p:first-child {
+  font-weight: 600;
+}
+.account p:last-child {
+  margin-top: 0.15rem;
+  color: var(--muted-foreground);
+  font-size: 0.85rem;
+}
+.comingSoon {
+  margin-top: 3rem;
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 25rem) {
+  .signOut {
+    width: 2.75rem;
+    padding-inline: 0;
+    font-size: 0;
+  }
+  .signOut svg {
+    width: 1rem;
+  }
+}
